@@ -13,7 +13,7 @@ Wails UI
             ├─ image validation and local persistence (cross-platform)
             ├─ controlled CSS generator (cross-platform)
             ├─ CDP target discovery and WebSocket injection (cross-platform)
-            └─ Codex lifecycle adapter (macOS today)
+            └─ Codex lifecycle adapters (macOS and Windows)
 ```
 
 The theme configuration is data, not executable code. Codex Canvas does not accept arbitrary CSS, JavaScript, remote URLs, or third-party theme bundles. A selected image is validated, copied into the app data directory, and converted to a local `data:` URL when the style is generated.
@@ -44,18 +44,15 @@ The theme configuration is data, not executable code. Codex Canvas does not acce
 
 `lipo` combines both Mach-O executables. The resulting bundle is ad-hoc signed for local testing. Public production distribution requires a Developer ID Application signature and Apple notarization.
 
-## Windows roadmap
+## Windows status
 
-1. Discover Microsoft Store, `%LOCALAPPDATA%`, and `%ProgramFiles%` installations and validate executable metadata.
-2. Request graceful shutdown first; require explicit user approval before any forced termination fallback.
-3. Launch with equivalent loopback-only CDP flags and a random port.
-4. Continue using `os.UserConfigDir()`, which maps naturally to `%AppData%\Codex Canvas`.
-5. Build an NSIS/MSI installer and apply an Authenticode signature.
-6. Test Windows 11 x64 across Store and standalone Codex installations.
+The Windows adapter discovers Microsoft Store Appx packages through PowerShell and parses the current manifest executable, with `%LOCALAPPDATA%` and `%ProgramFiles%` fallbacks. It requests graceful window closure, launches with equivalent loopback-only CDP flags, and stores data through `os.UserConfigDir()` under `%AppData%\Codex Canvas`.
+
+The x64 preview is cross-compiled as a Windows GUI PE executable with embedded Wails resources. Real-device testing, Authenticode signing, and an NSIS/MSI installer remain release gates.
 
 ## Release gates
 
 - Go tests, frontend production build, and Universal architecture checks pass.
 - macOS Developer ID signing and notarization pass for production releases.
 - SHA-256 checksums and release notes are published.
-- Apply, navigation, restore, normal launch, and update compatibility are tested on Intel and Apple Silicon hardware.
+- Apply, navigation, restore, normal launch, and update compatibility are tested on Intel, Apple Silicon, and Windows x64 hardware.

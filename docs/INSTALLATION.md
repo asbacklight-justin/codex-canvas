@@ -10,7 +10,7 @@
 
 ## Install the release build
 
-1. Download `Codex-Canvas-1.0.0-macOS-Universal.zip` from [GitHub Releases](../../../releases/latest).
+1. Download `Codex-Canvas-1.1.0-macOS-Universal.zip` from [GitHub Releases](../../../releases/latest).
 2. Verify its SHA-256 value against the checksum in the release notes.
 3. Unzip the archive and move `Codex Canvas.app` into `/Applications`.
 4. Control-click the app and choose **Open** on first launch if Gatekeeper displays an unidentified-developer warning.

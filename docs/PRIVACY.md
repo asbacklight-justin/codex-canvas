@@ -2,7 +2,7 @@
 
 [简体中文](PRIVACY.zh-CN.md) | **English**
 
-Codex Canvas 1.0.0 is designed to work locally.
+Codex Canvas 1.1.0 is designed to work locally.
 
 - It does not operate a backend service.
 - It does not collect analytics, telemetry, crash reports, account data, prompts, or Codex conversations.

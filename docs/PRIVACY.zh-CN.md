@@ -2,7 +2,7 @@
 
 **简体中文** | [English](PRIVACY.md)
 
-Codex Canvas 1.0.0 按本地运行方式设计。
+Codex Canvas 1.1.0 按本地运行方式设计。
 
 - 项目不运营后端服务。
 - 不收集分析、遥测、崩溃报告、账户数据、提示词或 Codex 对话。

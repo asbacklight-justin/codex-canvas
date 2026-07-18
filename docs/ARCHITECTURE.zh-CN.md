@@ -13,7 +13,7 @@ Wails UI
             ├─ 图片验证与本地持久化（跨平台）
             ├─ 受控 CSS 生成器（跨平台）
             ├─ CDP 页面发现与 WebSocket 注入（跨平台）
-            └─ Codex 生命周期适配（当前为 macOS）
+            └─ Codex 生命周期适配（macOS 与 Windows）
 ```
 
 主题配置是数据而不是可执行代码。Codex Canvas 不接收任意 CSS、JavaScript、远程 URL 或第三方主题包。选择图片后，应用会先验证并复制到本地数据目录，生成样式时再转为本地 `data:` URL。
@@ -44,18 +44,15 @@ Wails UI
 
 随后通过 `lipo` 合并两个 Mach-O 程序。本地测试包采用 ad-hoc 签名；正式公开分发需要 Developer ID Application 签名和 Apple 公证。
 
-## Windows 路线
+## Windows 状态
 
-1. 发现 Microsoft Store、`%LOCALAPPDATA%` 和 `%ProgramFiles%` 安装，并验证可执行文件信息。
-2. 优先请求优雅关闭；任何强制终止回退都必须先获得用户明确同意。
-3. 使用等价的仅限回环地址 CDP 参数和随机端口启动。
-4. 继续使用 `os.UserConfigDir()`，在 Windows 中自然映射到 `%AppData%\Codex Canvas`。
-5. 构建 NSIS/MSI 安装器并应用 Authenticode 签名。
-6. 在 Windows 11 x64、Store 与独立安装版 Codex 上完成测试。
+Windows 适配通过 PowerShell 发现 Microsoft Store Appx 包并解析当前清单中的可执行文件，同时提供 `%LOCALAPPDATA%` 和 `%ProgramFiles%` 回退。它请求窗口正常关闭，使用等价的仅限回环地址 CDP 参数启动，并通过 `os.UserConfigDir()` 把数据保存到 `%AppData%\Codex Canvas`。
+
+x64 预览版已交叉编译为带 Wails 嵌入资源的 Windows GUI PE 程序。真机测试、Authenticode 签名和 NSIS/MSI 安装器仍是正式发布门槛。
 
 ## 发布门槛
 
 - Go 测试、前端生产构建和 Universal 架构检查通过。
 - 正式版通过 macOS Developer ID 签名和公证。
 - 发布 SHA-256 校验值和更新说明。
-- 在 Intel 与 Apple Silicon 真机完成应用、页面切换、恢复、正常启动和升级兼容测试。
+- 在 Intel、Apple Silicon 与 Windows x64 真机完成应用、页面切换、恢复、正常启动和升级兼容测试。

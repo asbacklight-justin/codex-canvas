@@ -2,9 +2,9 @@
 
 [简体中文](README.zh-CN.md) | **English**
 
-Codex Canvas is a local-first, reversible background and theme manager for Codex Desktop on macOS. It lets you choose a local image or one of five built-in artworks, tune readability, preview the result, and relaunch Codex through a temporary local theming channel.
+Codex Canvas is a local-first, reversible background and theme manager for Codex Desktop on macOS and Windows. It lets you choose a local image or one of five built-in artworks, tune readability, preview the result, and relaunch Codex through a temporary local theming channel.
 
-**Version 1.0.0** · Support: [asbacklight@gmail.com](mailto:asbacklight@gmail.com)
+**Version 1.1.0** · Support: [asbacklight@gmail.com](mailto:asbacklight@gmail.com)
 
 > Codex Canvas is an independent open-source project. It is not affiliated with, endorsed by, or sponsored by OpenAI. Codex and OpenAI are trademarks of their respective owners.
 
@@ -19,19 +19,27 @@ Codex Canvas is a local-first, reversible background and theme manager for Codex
 - Automatic discovery of `/Applications/Codex.app` and compatible `/Applications/ChatGPT.app` installations
 - One-click apply and restore without modifying `Codex.app`, `app.asar`, application resources, or the code signature
 - Universal 2 build that runs natively on Intel and Apple Silicon Macs
+- Experimental Windows 10/11 x64 build with Microsoft Store Appx discovery
 - No uploads, analytics, telemetry, remote theme packages, or arbitrary user-supplied CSS/JavaScript
 
 ## Download and install
 
-Download the Universal archive from [GitHub Releases](../../releases/latest), unzip it, and move **Codex Canvas.app** to `/Applications`.
+Download a ready-to-use build from [GitHub Releases](../../releases/latest):
+
+- macOS: `Codex-Canvas-1.1.0-macOS-Universal.zip` for Intel and Apple Silicon
+- Windows: `Codex-Canvas-1.1.0-Windows-x64.zip` for Windows 10/11 x64 (preview)
+
+For macOS, unzip the archive and move **Codex Canvas.app** to `/Applications`. For Windows, extract the archive and run `Codex-Canvas.exe`.
 
 The current community build uses an ad-hoc signature and is not Apple-notarized. On first launch, macOS may require **Control-click → Open**. See the [installation guide](docs/INSTALLATION.md) for details and checksums.
 
-Requirements:
+macOS requirements:
 
 - macOS 12 or later
 - Intel (`x86_64`) or Apple Silicon (`arm64`)
 - Codex Desktop installed in `/Applications`
+
+Windows requires the official Microsoft Store ChatGPT desktop app and WebView2. See the [Windows preview guide](docs/WINDOWS.md). The first Windows build is cross-compiled and awaits community real-device confirmation.
 
 ## How it works
 
@@ -75,13 +83,14 @@ wails dev
 - [Installation](docs/INSTALLATION.md) · [安装说明](docs/INSTALLATION.zh-CN.md)
 - [Architecture](docs/ARCHITECTURE.md) · [架构说明](docs/ARCHITECTURE.zh-CN.md)
 - [Privacy](docs/PRIVACY.md) · [隐私说明](docs/PRIVACY.zh-CN.md)
+- [Windows preview](docs/WINDOWS.md) · [Windows 预览版](docs/WINDOWS.zh-CN.md)
 - [Contributing](CONTRIBUTING.md) · [参与贡献](CONTRIBUTING.zh-CN.md)
 - [Security policy](SECURITY.md) · [安全政策](SECURITY.zh-CN.md)
 - [Changelog](CHANGELOG.md)
 
-## Windows roadmap
+## Windows status
 
-The UI, theme model, CSS generator, and CDP client are designed to be portable. Windows still needs installation discovery, process lifecycle integration, launch handling, Authenticode signing, and end-to-end testing. Contributions are welcome; see the [architecture document](docs/ARCHITECTURE.md#windows-roadmap).
+Windows installation discovery, graceful lifecycle handling, CDP launch, and x64 packaging are implemented. Remaining release gates are real-device compatibility testing, Authenticode signing, and installer packaging. Contributions and test reports are welcome; see the [Windows guide](docs/WINDOWS.md) and [architecture document](docs/ARCHITECTURE.md#windows-status).
 
 ## License
 
