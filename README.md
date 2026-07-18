@@ -8,6 +8,10 @@ Codex Canvas is a local-first, reversible background and theme manager for Codex
 
 > Codex Canvas is an independent open-source project. It is not affiliated with, endorsed by, or sponsored by OpenAI. Codex and OpenAI are trademarks of their respective owners.
 
+<p align="center">
+  <img src="docs/images/codex-canvas-overview.png" alt="Codex Canvas showing built-in backgrounds, live preview, and readability controls" width="100%">
+</p>
+
 ## Highlights
 
 - Native macOS image picker for PNG, JPEG, WebP, and GIF files up to 16 MB
