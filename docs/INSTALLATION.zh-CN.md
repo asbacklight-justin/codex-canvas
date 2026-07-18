@@ -10,7 +10,7 @@
 
 ## 安装发布版本
 
-1. 从 [GitHub Releases](../../../releases/latest) 下载 `Codex-Canvas-1.0.0-macOS-Universal.zip`。
+1. 从 [GitHub Releases](../../../releases/latest) 下载 `Codex-Canvas-1.1.0-macOS-Universal.zip`。
 2. 对照发布说明中的校验值验证 SHA-256。
 3. 解压并把 `Codex Canvas.app` 移入 `/Applications`。
 4. 如果首次启动出现“无法验证开发者”，请按住 Control 点击应用并选择“打开”。

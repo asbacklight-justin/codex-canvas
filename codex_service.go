@@ -10,7 +10,6 @@ import (
 	"net"
 	"net/http"
 	"os"
-	"os/exec"
 	"path/filepath"
 	goruntime "runtime"
 	"strconv"
@@ -69,9 +68,11 @@ type ActionResult struct {
 }
 
 type CodexInstall struct {
-	Path       string
-	Executable string
-	Version    string
+	Path              string
+	Executable        string
+	Version           string
+	PackageFamilyName string
+	AppID             string
 }
 
 type CodexService struct {
@@ -92,7 +93,7 @@ func (s *CodexService) Status() AppStatus {
 	install, err := discoverCodex()
 	status := AppStatus{
 		Platform:      goruntime.GOOS,
-		Supported:     goruntime.GOOS == "darwin",
+		Supported:     goruntime.GOOS == "darwin" || goruntime.GOOS == "windows",
 		SavedTheme:    theme,
 		Active:        theme.Active,
 		Compatibility: "运行时主题 · 不修改应用签名",
@@ -117,8 +118,8 @@ func (s *CodexService) Apply(theme ThemeConfig) (ActionResult, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	if goruntime.GOOS != "darwin" {
-		return ActionResult{}, errors.New("当前版本先支持 macOS，Windows 适配层已预留")
+	if goruntime.GOOS != "darwin" && goruntime.GOOS != "windows" {
+		return ActionResult{}, errors.New("当前版本支持 macOS 和 Windows")
 	}
 	install, err := discoverCodex()
 	if err != nil {
@@ -161,7 +162,7 @@ func (s *CodexService) Apply(theme ThemeConfig) (ActionResult, error) {
 	if err := s.saveSettings(theme); err != nil {
 		return ActionResult{}, fmt.Errorf("主题已应用，但保存设置失败：%w", err)
 	}
-	return ActionResult{Success: true, Message: "主题已应用，Codex Canvas 没有修改 Codex.app", Port: port}, nil
+	return ActionResult{Success: true, Message: "主题已应用，Codex Canvas 没有修改官方应用文件", Port: port}, nil
 }
 
 func (s *CodexService) Restore() (ActionResult, error) {
@@ -423,87 +424,6 @@ func injectTarget(target cdpTarget, expression string, port int) error {
 		}
 		return nil
 	}
-}
-
-func discoverCodex() (CodexInstall, error) {
-	if goruntime.GOOS != "darwin" {
-		return CodexInstall{}, errors.New("当前平台尚未实现 Codex 自动发现")
-	}
-	home, _ := os.UserHomeDir()
-	candidates := []string{
-		"/Applications/Codex.app", filepath.Join(home, "Applications", "Codex.app"),
-		"/Applications/ChatGPT.app", filepath.Join(home, "Applications", "ChatGPT.app"),
-	}
-	for _, candidate := range candidates {
-		plist := filepath.Join(candidate, "Contents", "Info.plist")
-		if _, err := os.Stat(plist); err != nil {
-			continue
-		}
-		identifier := plistValue(plist, "CFBundleIdentifier")
-		if identifier != "com.openai.codex" {
-			continue
-		}
-		executableName := plistValue(plist, "CFBundleExecutable")
-		if executableName == "" {
-			executableName = strings.TrimSuffix(filepath.Base(candidate), ".app")
-		}
-		executable := filepath.Join(candidate, "Contents", "MacOS", executableName)
-		if info, err := os.Stat(executable); err != nil || info.Mode()&0o111 == 0 {
-			continue
-		}
-		return CodexInstall{Path: candidate, Executable: executable, Version: plistValue(plist, "CFBundleShortVersionString")}, nil
-	}
-	return CodexInstall{}, errors.New("未找到 Codex Desktop；请先安装官方应用")
-}
-
-func plistValue(plist, key string) string {
-	output, err := exec.Command("/usr/bin/plutil", "-extract", key, "raw", "-o", "-", plist).Output()
-	if err != nil {
-		return ""
-	}
-	return strings.TrimSpace(string(output))
-}
-
-func quitCodex(install CodexInstall) error {
-	if !processRunning(install.Executable) {
-		return nil
-	}
-	cmd := exec.Command("/usr/bin/osascript", "-e", `tell application id "com.openai.codex" to quit`)
-	if output, err := cmd.CombinedOutput(); err != nil {
-		return fmt.Errorf("无法关闭 Codex：%s", strings.TrimSpace(string(output)))
-	}
-	deadline := time.Now().Add(10 * time.Second)
-	for time.Now().Before(deadline) {
-		if !processRunning(install.Executable) {
-			return nil
-		}
-		time.Sleep(250 * time.Millisecond)
-	}
-	return errors.New("Codex 仍在运行，请手动退出后重试")
-}
-
-func processRunning(executable string) bool {
-	cmd := exec.Command("/usr/bin/pgrep", "-f", executable)
-	return cmd.Run() == nil
-}
-
-func launchCodexWithDebug(install CodexInstall, port int) error {
-	args := []string{"-na", install.Path, "--args",
-		"--remote-debugging-address=127.0.0.1",
-		fmt.Sprintf("--remote-debugging-port=%d", port),
-		fmt.Sprintf("--remote-allow-origins=http://127.0.0.1:%d", port),
-	}
-	if output, err := exec.Command("/usr/bin/open", args...).CombinedOutput(); err != nil {
-		return fmt.Errorf("无法启动 Codex：%s", strings.TrimSpace(string(output)))
-	}
-	return nil
-}
-
-func launchCodexNormal(install CodexInstall) error {
-	if output, err := exec.Command("/usr/bin/open", "-a", install.Path).CombinedOutput(); err != nil {
-		return fmt.Errorf("无法启动 Codex：%s", strings.TrimSpace(string(output)))
-	}
-	return nil
 }
 
 func availablePort() (int, error) {

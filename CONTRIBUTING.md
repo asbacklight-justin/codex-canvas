@@ -4,6 +4,10 @@
 
 Thanks for helping improve Codex Canvas.
 
+## Access and collaboration
+
+Anyone can fork this public repository, create a branch in their fork, and open a Pull Request. Opening a Pull Request does not grant direct push or merge access to this repository. Only maintainers and explicitly invited collaborators with the necessary GitHub role can merge changes. The `main` branch requires CI and review according to the repository protection rules.
+
 ## Before opening a change
 
 - Search existing issues first.

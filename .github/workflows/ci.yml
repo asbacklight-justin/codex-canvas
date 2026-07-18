@@ -30,5 +30,15 @@ jobs:
         run: npm run build
       - name: Test Go code
         run: go test ./...
+      - name: Cross-compile Windows x64
+        env:
+          GOOS: windows
+          GOARCH: amd64
+          CGO_ENABLED: '0'
+        run: >-
+          go build -buildvcs=false -trimpath
+          -tags desktop,wv2runtime.download,production
+          -ldflags "-w -s -H windowsgui"
+          -o /tmp/Codex-Canvas.exe .
       - name: Check macOS build script
-        run: bash -n scripts/build-macos.sh
+        run: bash -n scripts/build-macos.sh scripts/build-windows.sh

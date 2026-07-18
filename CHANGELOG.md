@@ -2,6 +2,20 @@
 
 All notable changes are documented here. / 本文件记录重要版本变化。
 
+## 1.1.0 - 2026-07-18
+
+### English
+
+- Added an experimental Windows 10/11 x64 build with Microsoft Store Appx discovery and graceful process handling.
+- Split platform lifecycle code into isolated macOS and Windows adapters.
+- Added Windows build scripts, CI cross-compilation, and bilingual Windows documentation.
+
+### 中文
+
+- 增加实验性 Windows 10/11 x64 版本，支持 Microsoft Store Appx 发现和优雅进程处理。
+- 将平台生命周期代码拆分为独立的 macOS 与 Windows 适配层。
+- 增加 Windows 构建脚本、CI 交叉编译和中英文 Windows 文档。
+
 ## 1.0.0 - 2026-07-18
 
 ### English
