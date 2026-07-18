@@ -1,0 +1,20 @@
+.DS_Store
+**/.DS_Store
+.idea/
+.vscode/
+*.log
+
+build/bin/
+frontend/node_modules/
+frontend/dist/
+
+# Unused assets from the original Wails starter scaffold
+frontend/src/assets/fonts/
+frontend/src/assets/images/logo-universal.png
+
+# Local signing and release material
+*.p12
+*.cer
+*.provisionprofile
+*.mobileprovision
+notarytool-profile*

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "Codex Canvas",
+  "outputfilename": "Codex Canvas",
+  "frontend:install": "npm install",
+  "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "Backlight Studio",
+    "email": "asbacklight@gmail.com"
+  },
+  "info": {
+    "companyName": "Backlight Studio",
+    "productName": "Codex Canvas",
+    "productVersion": "1.0.0",
+    "copyright": "Copyright © 2026 Backlight Studio",
+    "comments": "Contact: asbacklight@gmail.com"
+  }
+}
