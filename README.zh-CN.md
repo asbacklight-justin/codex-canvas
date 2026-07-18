@@ -8,6 +8,10 @@ Codex Canvas 是一个面向 macOS 和 Windows、本地优先且可逆的 Codex 
 
 > Codex Canvas 是独立开源项目，与 OpenAI 无隶属、背书或赞助关系。Codex 和 OpenAI 是其各自权利人的商标。
 
+<p align="center">
+  <img src="docs/images/codex-canvas-overview.png" alt="Codex Canvas 内置背景、实时预览和阅读效果控制界面" width="100%">
+</p>
+
 ## 主要功能
 
 - 原生 macOS 图片选择器，支持 PNG、JPEG、WebP、GIF，最大 16 MB
